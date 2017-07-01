@@ -4,6 +4,7 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import dllhell.familybudget.presentation.addexpense.AddExpensePresenter;
 import dllhell.familybudget.presentation.auth.AuthPresenter;
 import dllhell.familybudget.presentation.history.HistoryPresenter;
 import dllhell.familybudget.presentation.main.MainPresenter;
@@ -22,4 +23,6 @@ public interface AppComponent {
     Provider<ScannerPresenter> scannerPresenterProvider();
 
     Provider<HistoryPresenter> historyPresenterProvider();
+
+    Provider<AddExpensePresenter> addExpensePresenterProvider();
 }
