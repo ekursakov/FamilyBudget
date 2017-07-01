@@ -6,40 +6,42 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
+import dllhell.familybudget.App;
 import dllhell.familybudget.R;
+import dllhell.familybudget.presentation.scanner.ScannerPresenter;
+import dllhell.familybudget.presentation.scanner.ScannerView;
 
-public class BarcodeScannerFragment extends Fragment {
+public class ScannerFragment extends MvpAppCompatFragment implements ScannerView {
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 99;
-    private static final String REGEX_RULE = "&";
-    private static final String DATE_PATTERN = "yyyyMMdd'T'HHmmss";
-    private static final String DATE_START_PATTERN = "t=";
-    private static final String SUM_START_PATTERN = "s=";
 
     private DecoratedBarcodeView barcodeView;
     private BeepManager beepManager;
     private String lastText;
 
-    private Date date = null;
-    private String sum = "";
+    @InjectPresenter
+    ScannerPresenter presenter;
+
+    @ProvidePresenter
+    ScannerPresenter providePresenter() {
+        return App.getAppComponent().scannerPresenterProvider().get();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,14 +66,10 @@ public class BarcodeScannerFragment extends Fragment {
                 return;
             }
 
+            presenter.onBarcodeScan(result.getText());
+
             lastText = result.getText();
             beepManager.playBeepSoundAndVibrate();
-
-            if (decodeQRCodeInfo(result.getText())) {
-                // TODO: 7/1/17 pass params to fragment EditExp.
-            } else {
-                barcodeView.setStatusText("Can't recognize QR code data, please use manual mode or retry");
-            }
         }
 
         @Override
@@ -91,28 +89,9 @@ public class BarcodeScannerFragment extends Fragment {
         barcodeView.pause();
     }
 
-    /**
-     * Decodes String to inner fields date and sum.
-     * @param info String like this "t=20170701T085100&s=169.00&fn=8710000100627004&i=75&fp=1563831204&n=1"
-     * @return True - if decode successful, False - if not.
-     */
-    private boolean decodeQRCodeInfo(final String info) {
-        final String[] infoArray = info.split(REGEX_RULE);
-        for (int i = 0; i < infoArray.length; i++) {
-            if (date != null && !sum.isEmpty()) break;
-            if (date == null && infoArray[i].substring(0, 2).equals(DATE_START_PATTERN)) {
-                String dateInString = infoArray[i].substring(2);
-                DateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
-                try {
-                    date = formatter.parse(dateInString);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            } else if (sum.isEmpty() && infoArray[i].substring(0, 2).equals(SUM_START_PATTERN)) {
-                sum = infoArray[i].substring(2);
-            }
-        }
-        return date != null || !sum.isEmpty();
+    @Override
+    public void setStatusText(String text) {
+        barcodeView.setStatusText(text);
     }
 
     private boolean checkCameraPermission() {

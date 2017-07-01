@@ -28,7 +28,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     protected void onFirstViewAttach() {
         FirebaseAuth.getInstance().signInAnonymously().addOnSuccessListener(command -> {
             dataRepository.addExpense(new Expense(new Date(10000000), 50010)).subscribe();
-            router.newRootScreen(Screens.ADD_EXPENSE);
+            router.newRootScreen(Screens.SCANNER);
         });
     }
 }
