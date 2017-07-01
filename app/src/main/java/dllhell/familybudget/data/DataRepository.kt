@@ -25,7 +25,7 @@ class DataRepository @Inject constructor() {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     emitter.onNext(snapshot.children.map { child ->
-                        Expense(child.child("date").getValue(Date::class.java), child.child("date").getValue(Long::class.java))
+                        Expense(child.child("date").getValue(Date::class.java)!!, child.child("date").getValue(Long::class.java)!!)
                     })
                 }
             }

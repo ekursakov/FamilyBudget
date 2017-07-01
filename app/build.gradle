@@ -19,7 +19,7 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "dllhell.familybudget"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -43,7 +43,7 @@ android {
 }
 
 ext {
-    supportLibsVersion = '25.4.0'
+    supportLibsVersion = '25.3.1'
     butterKnifeVersion = '8.6.0'
     moxyVersion = '1.5.3'
     retrofitVersion = '2.2.0'
@@ -60,8 +60,9 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$supportLibsVersion"
 
     // Firebase
-    compile 'com.google.firebase:firebase-auth:10.0.1'
-    compile 'com.google.firebase:firebase-database:10.0.1'
+    compile 'com.google.firebase:firebase-auth:11.0.1'
+    compile 'com.google.firebase:firebase-database:11.0.1'
+    compile 'com.firebaseui:firebase-ui-auth:2.0.1'
 
     // ButterKnife
     compile "com.jakewharton:butterknife:$butterKnifeVersion"
