@@ -1,4 +1,4 @@
-package dllhell.familybudget.presentation.edit;
+package dllhell.familybudget.presentation.addexpense;
 
 import com.arellomobile.mvp.InjectViewState;
 
@@ -9,13 +9,13 @@ import dllhell.familybudget.presentation.BasePresenter;
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
-public class EditExpensePresenter extends BasePresenter<EditExpenseView> {
+public class AddExpensePresenter extends BasePresenter<AddExpenseView> {
 
     private final Router router;
     private final DataRepository dataRepository;
 
     @Inject
-    public EditExpensePresenter(Router router, DataRepository dataRepository) {
+    public AddExpensePresenter(Router router, DataRepository dataRepository) {
         this.router = router;
         this.dataRepository = dataRepository;
     }

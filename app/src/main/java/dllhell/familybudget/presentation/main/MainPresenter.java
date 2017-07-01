@@ -27,7 +27,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void navigateToEdit() {
-        router.newRootScreen(Screens.EDIT_EXPENSE);
+        router.newRootScreen(Screens.ADD_EXPENSE);
     }
 
     public void navigateToHistory() {

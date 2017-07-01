@@ -13,8 +13,7 @@ import javax.inject.Inject;
 
 import dllhell.familybudget.data.DataRepository;
 import dllhell.familybudget.presentation.BasePresenter;
-import dllhell.familybudget.ui.fragment.EditExpenseFragment;
-import dllhell.familybudget.ui.fragment.ScannerFragment;
+import dllhell.familybudget.ui.fragment.AddExpenseFragment;
 import dllhell.familybudget.ui.navigation.Screens;
 import ru.terrakok.cicerone.Router;
 
@@ -59,9 +58,9 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
         }
         if (date != null || !sum.isEmpty()) {
             Bundle bundle = new Bundle();
-            bundle.putString(EditExpenseFragment.ARG_SUM, sum);
-            bundle.putSerializable(EditExpenseFragment.ARG_DATE, date);
-            router.navigateTo(Screens.EDIT_EXPENSE, bundle);
+            bundle.putString(AddExpenseFragment.ARG_SUM, sum);
+            bundle.putSerializable(AddExpenseFragment.ARG_DATE, date);
+            router.navigateTo(Screens.ADD_EXPENSE, bundle);
         } else {
             getViewState().setStatusText("Can't recognize QR code data, please use manual mode or retry");
         }
