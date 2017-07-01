@@ -40,7 +40,7 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
      */
     public void onBarcodeScan(String text) {
         Date date = null;
-        Long sum = null;
+        Double sum = null;
         final String[] infoArray = text.split(REGEX_RULE);
         for (int i = 0; i < infoArray.length; i++) {
             if (date != null && sum != null) break;
@@ -53,12 +53,13 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
                     e.printStackTrace();
                 }
             } else if (sum == null && infoArray[i].substring(0, 2).equals(SUM_START_PATTERN)) {
-                sum = Long.parseLong(infoArray[i].substring(2));
+                String str = infoArray[i].substring(2);
+                sum = Double.parseDouble(str);
             }
         }
         if (date != null || sum != null) {
             Bundle bundle = new Bundle();
-            bundle.putLong(AddExpenseFragment.ARG_SUM, sum);
+            bundle.putDouble(AddExpenseFragment.ARG_SUM, sum);
             bundle.putSerializable(AddExpenseFragment.ARG_DATE, date);
             router.navigateTo(Screens.ADD_EXPENSE, bundle);
         } else {

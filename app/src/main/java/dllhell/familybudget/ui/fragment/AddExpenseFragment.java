@@ -39,7 +39,7 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
         AddExpensePresenter presenter = App.getAppComponent().addExpensePresenterProvider().get();
         Bundle arguments = this.getArguments();
 
-        long sum = arguments.getLong(AddExpenseFragment.ARG_SUM);
+        double sum = arguments.getDouble(AddExpenseFragment.ARG_SUM);
         presenter.SetSum(sum);
 
         Date date = (Date)arguments.getSerializable(AddExpenseFragment.ARG_DATE);
@@ -65,7 +65,7 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
     }
 
     @Override
-    public void SetSum(long sum) {
+    public void SetSum(double sum) {
         sumEditText.setText(String.valueOf(sum));
     }
 

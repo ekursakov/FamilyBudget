@@ -23,7 +23,7 @@ public class AddExpensePresenter extends BasePresenter<AddExpenseView> {
         this.dataRepository = dataRepository;
     }
 
-    public void SetSum(long sum) {
+    public void SetSum(double sum) {
         this.getViewState().SetSum(sum);
     }
 
