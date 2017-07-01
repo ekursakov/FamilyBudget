@@ -14,7 +14,8 @@ import dllhell.familybudget.R
 import dllhell.familybudget.presentation.main.MainPresenter
 import dllhell.familybudget.presentation.main.MainView
 import dllhell.familybudget.ui.fragment.AuthFragment
-import dllhell.familybudget.ui.fragment.BarcodeScannerFragment
+import dllhell.familybudget.ui.fragment.EditExpenseFragment
+import dllhell.familybudget.ui.fragment.ScannerFragment
 import dllhell.familybudget.ui.fragment.history.HistoryFragment
 import dllhell.familybudget.ui.navigation.Screens
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,9 +36,10 @@ class MainActivity : MvpAppCompatActivity(), MainView {
             supportFragmentManager, R.id.container) {
         override fun createFragment(screenKey: String, data: Any?): Fragment {
             return when (screenKey) {
-                Screens.AUTH -> AuthFragment()
-                Screens.ADD_EXPENSE -> BarcodeScannerFragment()
+                Screens.AUTH -> AuthFragment() as Fragment
+                Screens.SCANNER -> ScannerFragment()
                 Screens.HISTORY -> HistoryFragment()
+                Screens.EDIT_EXPENSE -> EditExpenseFragment()
                 else -> throw IllegalStateException("Navigating to unknown screen: " + screenKey)
             }.apply {
                 if (data is Bundle) {
@@ -90,7 +92,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 )
                 .withOnDrawerItemClickListener { _, _, drawerItem ->
                     when (drawerItem.identifier) {
-                        1L -> presenter.navigateToAdd()
+                        1L -> presenter.navigateToScanner()
                         2L -> presenter.navigateToHistory()
                         3L -> presenter.navigateToStats()
                     }

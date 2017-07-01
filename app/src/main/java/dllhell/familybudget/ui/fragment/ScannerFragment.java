@@ -6,12 +6,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -20,32 +22,39 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.util.List;
 
+import dllhell.familybudget.App;
 import dllhell.familybudget.R;
+import dllhell.familybudget.presentation.scanner.ScannerPresenter;
+import dllhell.familybudget.presentation.scanner.ScannerView;
 
-public class BarcodeScannerFragment extends Fragment {
+public class ScannerFragment extends MvpAppCompatFragment implements ScannerView {
 
-    private static final String TAG = BarcodeScannerFragment.class.getSimpleName();
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 99;
 
     private DecoratedBarcodeView barcodeView;
     private BeepManager beepManager;
     private String lastText;
 
+    @InjectPresenter
+    ScannerPresenter presenter;
+
+    @ProvidePresenter
+    ScannerPresenter providePresenter() {
+        return App.getAppComponent().scannerPresenterProvider().get();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         checkCameraPermission();
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_barcode_scanner, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         barcodeView = (DecoratedBarcodeView) view.findViewById(R.id.barcode_scanner);
         barcodeView.decodeContinuous(barcodeCallback);
-
         beepManager = new BeepManager(getActivity());
     }
 
@@ -57,8 +66,9 @@ public class BarcodeScannerFragment extends Fragment {
                 return;
             }
 
+            presenter.onBarcodeScan(result.getText());
+
             lastText = result.getText();
-            barcodeView.setStatusText(result.getText());
             beepManager.playBeepSoundAndVibrate();
         }
 
@@ -77,6 +87,11 @@ public class BarcodeScannerFragment extends Fragment {
     public void onPause() {
         super.onPause();
         barcodeView.pause();
+    }
+
+    @Override
+    public void setStatusText(String text) {
+        barcodeView.setStatusText(text);
     }
 
     private boolean checkCameraPermission() {
