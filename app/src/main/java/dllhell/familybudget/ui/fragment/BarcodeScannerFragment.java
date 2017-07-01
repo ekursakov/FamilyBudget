@@ -18,34 +18,41 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import dllhell.familybudget.R;
 
 public class BarcodeScannerFragment extends Fragment {
 
-    private static final String TAG = BarcodeScannerFragment.class.getSimpleName();
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 99;
+    private static final String REGEX_RULE = "&";
+    private static final String DATE_PATTERN = "yyyyMMdd'T'HHmmss";
+    private static final String DATE_START_PATTERN = "t=";
+    private static final String SUM_START_PATTERN = "s=";
 
     private DecoratedBarcodeView barcodeView;
     private BeepManager beepManager;
     private String lastText;
 
+    private Date date = null;
+    private String sum = "";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         checkCameraPermission();
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_barcode_scanner, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         barcodeView = (DecoratedBarcodeView) view.findViewById(R.id.barcode_scanner);
         barcodeView.decodeContinuous(barcodeCallback);
-
         beepManager = new BeepManager(getActivity());
     }
 
@@ -58,8 +65,13 @@ public class BarcodeScannerFragment extends Fragment {
             }
 
             lastText = result.getText();
-            barcodeView.setStatusText(result.getText());
             beepManager.playBeepSoundAndVibrate();
+
+            if (decodeQRCodeInfo(result.getText())) {
+                // TODO: 7/1/17 pass params to fragment EditExp.
+            } else {
+                barcodeView.setStatusText("Can't recognize QR code data, please use manual mode or retry");
+            }
         }
 
         @Override
@@ -77,6 +89,30 @@ public class BarcodeScannerFragment extends Fragment {
     public void onPause() {
         super.onPause();
         barcodeView.pause();
+    }
+
+    /**
+     * Decodes String to inner fields date and sum.
+     * @param info String like this "t=20170701T085100&s=169.00&fn=8710000100627004&i=75&fp=1563831204&n=1"
+     * @return True - if decode successful, False - if not.
+     */
+    private boolean decodeQRCodeInfo(final String info) {
+        final String[] infoArray = info.split(REGEX_RULE);
+        for (int i = 0; i < infoArray.length; i++) {
+            if (date != null && !sum.isEmpty()) break;
+            if (date == null && infoArray[i].substring(0, 2).equals(DATE_START_PATTERN)) {
+                String dateInString = infoArray[i].substring(2);
+                DateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
+                try {
+                    date = formatter.parse(dateInString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } else if (sum.isEmpty() && infoArray[i].substring(0, 2).equals(SUM_START_PATTERN)) {
+                sum = infoArray[i].substring(2);
+            }
+        }
+        return date != null || !sum.isEmpty();
     }
 
     private boolean checkCameraPermission() {
