@@ -4,7 +4,6 @@ import com.arellomobile.mvp.InjectViewState;
 
 import javax.inject.Inject;
 
-import dllhell.familybudget.data.DataRepository;
 import dllhell.familybudget.presentation.BasePresenter;
 import dllhell.familybudget.ui.navigation.Screens;
 import ru.terrakok.cicerone.Router;
@@ -12,17 +11,31 @@ import ru.terrakok.cicerone.Router;
 @InjectViewState
 public class MainPresenter extends BasePresenter<MainView> {
     private final Router router;
-    private final DataRepository dataRepository;
 
     @Inject
-    public MainPresenter(Router router, DataRepository dataRepository) {
+    public MainPresenter(Router router) {
         this.router = router;
-        this.dataRepository = dataRepository;
     }
 
     @Override
     protected void onFirstViewAttach() {
         router.newRootScreen(Screens.AUTH);
+    }
+
+    public void navigateToAdd() {
+        router.newRootScreen(Screens.ADD_EXPENSE);
+    }
+
+    public void navigateToEdit() {
+        router.newRootScreen(Screens.EDIT_EXPENSE);
+    }
+
+    public void navigateToHistory() {
+        router.newRootScreen(Screens.HISTORY);
+    }
+
+    public void navigateToStats() {
+        router.newRootScreen(Screens.HISTORY);
     }
 }
 

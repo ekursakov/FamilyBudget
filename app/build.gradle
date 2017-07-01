@@ -43,7 +43,7 @@ android {
 }
 
 ext {
-    supportLibsVersion = '25.3.1'
+    supportLibsVersion = '25.4.0'
     butterKnifeVersion = '8.6.0'
     moxyVersion = '1.5.3'
     retrofitVersion = '2.2.0'
@@ -56,6 +56,9 @@ dependencies {
 
     // Support libs
     compile "com.android.support:appcompat-v7:$supportLibsVersion"
+    compile "com.android.support:customtabs:$supportLibsVersion"
+    compile "com.android.support:animated-vector-drawable:$supportLibsVersion"
+    compile "com.android.support:cardview-v7:$supportLibsVersion"
     compile "com.android.support:design:$supportLibsVersion"
     compile "com.android.support:recyclerview-v7:$supportLibsVersion"
 
@@ -63,10 +66,6 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.0.1'
     compile 'com.google.firebase:firebase-database:11.0.1'
     compile 'com.firebaseui:firebase-ui-auth:2.0.1'
-
-    // ButterKnife
-    compile "com.jakewharton:butterknife:$butterKnifeVersion"
-    kapt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
     // Moxy
     compile "com.arello-mobile:moxy:$moxyVersion"
@@ -84,6 +83,11 @@ dependencies {
     compile "io.reactivex.rxjava2:rxjava:2.1.0"
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
+    // UI
+    compile('com.mikepenz:materialdrawer:5.9.3@aar') {
+        transitive = true
+    }
+
     // Log
     compile 'com.jakewharton.timber:timber:4.5.1'
 
@@ -91,4 +95,5 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.5.0'
 
     testCompile 'junit:junit:4.12'
-}apply plugin: 'com.google.gms.google-services'
+}
+apply plugin: 'com.google.gms.google-services'
