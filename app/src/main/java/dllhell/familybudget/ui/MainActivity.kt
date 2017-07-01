@@ -6,17 +6,21 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import butterknife.ButterKnife
+import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import dllhell.familybudget.App
 import dllhell.familybudget.R
 import dllhell.familybudget.presentation.main.MainPresenter
+import dllhell.familybudget.presentation.main.MainView
+import dllhell.familybudget.ui.fragment.BarcodeScannerFragment
+import dllhell.familybudget.ui.navigation.Screens
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
@@ -26,9 +30,9 @@ class MainActivity : AppCompatActivity() {
 
     private val navigator = object : SupportFragmentNavigator(
             supportFragmentManager, R.id.container) {
-        override fun createFragment(screenKey: String, data: Any): Fragment {
+        override fun createFragment(screenKey: String, data: Any?): Fragment {
             when (screenKey) {
-            //Screens.NEWS_LIST -> return NewsListFragment()
+                Screens.ADD_EXPENSE -> return BarcodeScannerFragment()
                 else -> throw IllegalStateException("Navigating to unknown screen: " + screenKey)
             }
         }

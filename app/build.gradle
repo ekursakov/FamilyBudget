@@ -10,6 +10,7 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 
@@ -60,19 +61,19 @@ dependencies {
 
     // ButterKnife
     compile "com.jakewharton:butterknife:$butterKnifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+    kapt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
     // Moxy
     compile "com.arello-mobile:moxy:$moxyVersion"
     compile "com.arello-mobile:moxy-app-compat:$moxyVersion"
-    annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
+    kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
 
     // Cicerone (navigation)
     compile 'ru.terrakok.cicerone:cicerone:1.1'
 
     // DI
     compile "com.google.dagger:dagger:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     // Rx
     compile "io.reactivex.rxjava2:rxjava:2.1.0"
