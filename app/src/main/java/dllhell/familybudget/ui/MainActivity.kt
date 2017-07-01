@@ -1,5 +1,6 @@
 package dllhell.familybudget.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -13,6 +14,7 @@ import dllhell.familybudget.App
 import dllhell.familybudget.R
 import dllhell.familybudget.presentation.main.MainPresenter
 import dllhell.familybudget.presentation.main.MainView
+import dllhell.familybudget.service.LocationService
 import dllhell.familybudget.ui.fragment.AuthFragment
 import dllhell.familybudget.ui.fragment.EditExpenseFragment
 import dllhell.familybudget.ui.fragment.ScannerFragment
@@ -99,6 +101,8 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                     false
                 }
                 .build()
+
+        startService(Intent(this, LocationService::class.java))
     }
 
     override fun onResumeFragments() {
