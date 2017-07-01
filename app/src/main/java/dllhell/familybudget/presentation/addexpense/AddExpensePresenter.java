@@ -16,6 +16,8 @@ public class AddExpensePresenter extends BasePresenter<AddExpenseView> {
 
     private final Router router;
     private final DataRepository dataRepository;
+    private double sum;
+    private Date date;
 
     @Inject
     public AddExpensePresenter(Router router, DataRepository dataRepository) {
@@ -23,11 +25,21 @@ public class AddExpensePresenter extends BasePresenter<AddExpenseView> {
         this.dataRepository = dataRepository;
     }
 
-    public void SetSum(double sum) {
-        this.getViewState().SetSum(sum);
+    public void setSum(double sum) {
+        this.sum = sum;
+        this.getViewState().SetSum(this.sum);
     }
 
-    public void SetDate(Date date) {
-        this.getViewState().SetDate(date);
+    public void setDate(Date date) {
+        this.date = date;
+        this.getViewState().SetDate(this.date);
+    }
+
+    public void onEditClick() {
+
+    }
+
+    public void onNewScanningClick() {
+        this.router.exit();
     }
 }

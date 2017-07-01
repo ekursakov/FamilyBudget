@@ -20,6 +20,7 @@
                 android:id="@+id/date_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:hint="Date"
                 android:inputType="date" />
         </android.support.design.widget.TextInputLayout>
@@ -33,6 +34,7 @@
                 android:id="@+id/time_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:hint="Time"
                 android:inputType="time" />
 
@@ -47,6 +49,7 @@
             android:id="@+id/sum_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:hint="Total sum" />
 
     </android.support.design.widget.TextInputLayout>
@@ -59,7 +62,25 @@
             android:id="@+id/location_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:hint="Location" />
 
     </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:enabled="false"
+        android:text="Edit" />
+
+    <Button
+        android:id="@+id/new_scanning_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="New scanning" />
 </LinearLayout>

@@ -40,10 +40,10 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
         Bundle arguments = this.getArguments();
 
         double sum = arguments.getDouble(AddExpenseFragment.ARG_SUM);
-        presenter.SetSum(sum);
+        presenter.setSum(sum);
 
         Date date = (Date)arguments.getSerializable(AddExpenseFragment.ARG_DATE);
-        presenter.SetDate(date);
+        presenter.setDate(date);
 
         return presenter;
     }
@@ -62,11 +62,19 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
         timeEditText = (EditText) view.findViewById(R.id.time_edit_text);
         sumEditText = (EditText) view.findViewById(R.id.sum_edit_text);
         locationEditText = (EditText) view.findViewById(R.id.location_edit_text);
+
+        view.findViewById(R.id.edit_button).setOnClickListener(v -> {
+            presenter.onEditClick();
+        });
+
+        view.findViewById(R.id.new_scanning_button).setOnClickListener(v -> {
+            presenter.onNewScanningClick();
+        });
     }
 
     @Override
     public void SetSum(double sum) {
-        sumEditText.setText(String.valueOf(sum));
+        sumEditText.setText(String.format("%.2f", sum));
     }
 
     @Override
