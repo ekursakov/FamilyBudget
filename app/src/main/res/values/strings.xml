@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">FamilyBudget</string>
+    <string name="app_name">Family Budget</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_network">Ошибка сети. Проверьте подключение к интернету.</string>
+    <string name="error_server_failure">Ошибка сервера. Попробуйте повторить запрос позже.</string>
+    <string name="error_unknown_failure">неизвестная ошибка</string>
+    <string name="action_retry">Повторить</string>
 </resources>

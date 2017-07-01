@@ -15,6 +15,7 @@ import dllhell.familybudget.presentation.main.MainPresenter
 import dllhell.familybudget.presentation.main.MainView
 import dllhell.familybudget.ui.fragment.AuthFragment
 import dllhell.familybudget.ui.fragment.BarcodeScannerFragment
+import dllhell.familybudget.ui.fragment.history.HistoryFragment
 import dllhell.familybudget.ui.navigation.Screens
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.terrakok.cicerone.NavigatorHolder
@@ -36,6 +37,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
             return when (screenKey) {
                 Screens.AUTH -> AuthFragment()
                 Screens.ADD_EXPENSE -> BarcodeScannerFragment()
+                Screens.HISTORY -> HistoryFragment()
                 else -> throw IllegalStateException("Navigating to unknown screen: " + screenKey)
             }.apply {
                 if (data is Bundle) {
@@ -92,7 +94,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                         2L -> presenter.navigateToHistory()
                         3L -> presenter.navigateToStats()
                     }
-                    true
+                    false
                 }
                 .build()
     }

@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import dllhell.familybudget.presentation.auth.AuthPresenter;
+import dllhell.familybudget.presentation.history.HistoryPresenter;
 import dllhell.familybudget.presentation.main.MainPresenter;
 import dllhell.familybudget.ui.MainActivity;
 
@@ -16,4 +17,6 @@ public interface AppComponent {
     Provider<MainPresenter> mainPresenterProvider();
 
     Provider<AuthPresenter> authPresenterProvider();
+
+    Provider<HistoryPresenter> historyPresenterProvider();
 }
