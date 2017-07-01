@@ -3,7 +3,6 @@ package dllhell.familybudget.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import butterknife.ButterKnife
 import com.arellomobile.mvp.MvpAppCompatActivity
@@ -13,6 +12,7 @@ import dllhell.familybudget.App
 import dllhell.familybudget.R
 import dllhell.familybudget.presentation.main.MainPresenter
 import dllhell.familybudget.presentation.main.MainView
+import dllhell.familybudget.ui.fragment.AuthFragment
 import dllhell.familybudget.ui.fragment.BarcodeScannerFragment
 import dllhell.familybudget.ui.navigation.Screens
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,6 +32,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
             supportFragmentManager, R.id.container) {
         override fun createFragment(screenKey: String, data: Any?): Fragment {
             when (screenKey) {
+                Screens.AUTH -> return AuthFragment()
                 Screens.ADD_EXPENSE -> return BarcodeScannerFragment()
                 else -> throw IllegalStateException("Navigating to unknown screen: " + screenKey)
             }
