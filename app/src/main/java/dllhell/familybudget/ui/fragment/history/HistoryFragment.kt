@@ -42,7 +42,7 @@ class HistoryFragment : MvpAppCompatFragment(), HistoryView {
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun setItems(items: MutableList<Expense>?) {
+    override fun setItems(items: List<Expense>?) {
         if (items != null) {
             rvExpenses.visibility = View.VISIBLE
             adapter.setItems(items)

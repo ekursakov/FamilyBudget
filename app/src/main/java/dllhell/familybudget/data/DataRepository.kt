@@ -9,7 +9,6 @@ import dllhell.familybudget.data.models.Expense
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposables
-import java.util.*
 import javax.inject.Inject
 
 class DataRepository @Inject constructor() {
@@ -24,9 +23,7 @@ class DataRepository @Inject constructor() {
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    emitter.onNext(snapshot.children.map { child ->
-                        Expense(child.key, child.child("date").getValue(Date::class.java)!!, child.child("sum").getValue(Long::class.java)!!)
-                    })
+                    emitter.onNext(snapshot.children.map { it.getValue(Expense::class.java)!! })
                 }
             }
             reference.addListenerForSingleValueEvent(listener)
