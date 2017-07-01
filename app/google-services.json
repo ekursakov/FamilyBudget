@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "771788678666",
+    "firebase_url": "https://familybudget-ff505.firebaseio.com",
+    "project_id": "familybudget-ff505",
+    "storage_bucket": "familybudget-ff505.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771788678666:android:56e5b5efc5af6612",
+        "android_client_info": {
+          "package_name": "dllhell.familybudget"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771788678666-9gro9bqiaapqkkp3oiscu7horqemt7tl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dllhell.familybudget",
+            "certificate_hash": "e3930617db8416923b7e10e17054ec85e2950579"
+          }
+        },
+        {
+          "client_id": "771788678666-08r44atsq7kdq6pncq6fun5g7e5tstmj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5CqoXARmuTCM1nKnyGig9nU9gxvD3GJY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771788678666-08r44atsq7kdq6pncq6fun5g7e5tstmj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
