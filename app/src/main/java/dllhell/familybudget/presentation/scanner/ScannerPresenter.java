@@ -40,10 +40,10 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
      */
     public void onBarcodeScan(String text) {
         Date date = null;
-        String sum = "";
+        Double sum = null;
         final String[] infoArray = text.split(REGEX_RULE);
         for (int i = 0; i < infoArray.length; i++) {
-            if (date != null && !sum.isEmpty()) break;
+            if (date != null && sum != null) break;
             if (date == null && infoArray[i].substring(0, 2).equals(DATE_START_PATTERN)) {
                 String dateInString = infoArray[i].substring(2);
                 DateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
@@ -52,13 +52,14 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-            } else if (sum.isEmpty() && infoArray[i].substring(0, 2).equals(SUM_START_PATTERN)) {
-                sum = infoArray[i].substring(2);
+            } else if (sum == null && infoArray[i].substring(0, 2).equals(SUM_START_PATTERN)) {
+                String str = infoArray[i].substring(2);
+                sum = Double.parseDouble(str);
             }
         }
-        if (date != null || !sum.isEmpty()) {
+        if (date != null || sum != null) {
             Bundle bundle = new Bundle();
-            bundle.putString(AddExpenseFragment.ARG_SUM, sum);
+            bundle.putDouble(AddExpenseFragment.ARG_SUM, sum);
             bundle.putSerializable(AddExpenseFragment.ARG_DATE, date);
             router.navigateTo(Screens.ADD_EXPENSE, bundle);
         } else {
