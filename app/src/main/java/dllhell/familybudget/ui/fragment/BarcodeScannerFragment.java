@@ -2,9 +2,7 @@ package dllhell.familybudget.ui.fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -13,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
@@ -63,10 +60,6 @@ public class BarcodeScannerFragment extends Fragment {
             lastText = result.getText();
             barcodeView.setStatusText(result.getText());
             beepManager.playBeepSoundAndVibrate();
-
-            //Added preview of scanned barcode
-            ImageView imageView = (ImageView) getView().findViewById(R.id.barcodePreview);
-            imageView.setImageBitmap(result.getBitmapWithResultPoints(Color.YELLOW));
         }
 
         @Override
@@ -86,19 +79,6 @@ public class BarcodeScannerFragment extends Fragment {
         barcodeView.pause();
     }
 
-
-    public void pause(View view) {
-        barcodeView.pause();
-    }
-
-    public void resume(View view) {
-        barcodeView.resume();
-    }
-
-    public void triggerScan(View view) {
-        barcodeView.decodeSingle(barcodeCallback);
-    }
-
     private boolean checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -113,19 +93,14 @@ public class BarcodeScannerFragment extends Fragment {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Camera permission")
                         .setMessage("Please grant access to camera to scan barcodes")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(getActivity(),
-                                        new String[]{Manifest.permission.CAMERA},
-                                        MY_PERMISSIONS_REQUEST_CAMERA);
-                            }
+                        .setPositiveButton("OK", (dialogInterface, i) -> {
+                            // Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(getActivity(),
+                                    new String[]{Manifest.permission.CAMERA},
+                                    MY_PERMISSIONS_REQUEST_CAMERA);
                         })
                         .create()
                         .show();
-
-
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(),
