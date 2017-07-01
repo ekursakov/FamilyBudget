@@ -36,9 +36,10 @@ class MainActivity : MvpAppCompatActivity(), MainView {
             supportFragmentManager, R.id.container) {
         override fun createFragment(screenKey: String, data: Any?): Fragment {
             return when (screenKey) {
-                Screens.AUTH -> AuthFragment()
+                Screens.AUTH -> AuthFragment() as Fragment
                 Screens.SCANNER -> ScannerFragment()
                 Screens.HISTORY -> HistoryFragment()
+                Screens.EDIT_EXPENSE -> EditExpenseFragment()
                 else -> throw IllegalStateException("Navigating to unknown screen: " + screenKey)
             }.apply {
                 if (data is Bundle) {
@@ -91,7 +92,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 )
                 .withOnDrawerItemClickListener { _, _, drawerItem ->
                     when (drawerItem.identifier) {
-                        1L -> presenter.navigateToAdd()
+                        1L -> presenter.navigateToScanner()
                         2L -> presenter.navigateToHistory()
                         3L -> presenter.navigateToStats()
                     }
