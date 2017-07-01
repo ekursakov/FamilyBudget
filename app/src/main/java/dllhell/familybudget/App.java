@@ -2,6 +2,8 @@ package dllhell.familybudget;
 
 import android.app.Application;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import dllhell.familybudget.dagger.AppComponent;
 import dllhell.familybudget.dagger.AppModule;
 import dllhell.familybudget.dagger.DaggerAppComponent;
@@ -25,5 +27,7 @@ public class App extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 }

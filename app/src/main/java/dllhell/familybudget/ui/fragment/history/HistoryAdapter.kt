@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_expense.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+internal class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     companion object {
         private val DATE_FORMAT = SimpleDateFormat("d MMMM yyyy, HH:mm", Locale.getDefault())
@@ -46,5 +46,4 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
             sumTextView.text = expense.sum.toString()
         }
     }
-
 }

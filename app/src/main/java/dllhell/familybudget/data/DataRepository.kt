@@ -25,7 +25,7 @@ class DataRepository @Inject constructor() {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     emitter.onNext(snapshot.children.map { child ->
-                        Expense(child.child("date").getValue(Date::class.java)!!, child.child("sum").getValue(Long::class.java)!!)
+                        Expense(child.key, child.child("date").getValue(Date::class.java)!!, child.child("sum").getValue(Long::class.java)!!)
                     })
                 }
             }
@@ -36,6 +36,20 @@ class DataRepository @Inject constructor() {
     }
 
     fun addExpense(expense: Expense): Completable {
+        return Completable.create { emitter ->
+            val uid = FirebaseAuth.getInstance().currentUser!!.uid
+            val reference = FirebaseDatabase.getInstance().getReference("expenses/$uid")
+            reference.child(expense.id).setValue(expense.toMap()).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    emitter.onComplete()
+                } else {
+                    emitter.onError(task.exception!!)
+                }
+            }
+        }
+    }
+
+    fun updateExpense(expense: Expense): Completable {
         return Completable.create { emitter ->
             val uid = FirebaseAuth.getInstance().currentUser!!.uid
             val reference = FirebaseDatabase.getInstance().getReference("expenses/$uid")
