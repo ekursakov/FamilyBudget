@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import dllhell.familybudget.R;
 
-public class EditExpenseFragment extends Fragment {
+public class AddExpenseFragment extends Fragment {
     
     public static final String ARG_DATE = "ARG_DATE";
     public static final String ARG_SUM = "ARG_SUM";

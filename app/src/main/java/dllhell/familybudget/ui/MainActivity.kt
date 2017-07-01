@@ -14,7 +14,7 @@ import dllhell.familybudget.R
 import dllhell.familybudget.presentation.main.MainPresenter
 import dllhell.familybudget.presentation.main.MainView
 import dllhell.familybudget.ui.fragment.AuthFragment
-import dllhell.familybudget.ui.fragment.EditExpenseFragment
+import dllhell.familybudget.ui.fragment.AddExpenseFragment
 import dllhell.familybudget.ui.fragment.ScannerFragment
 import dllhell.familybudget.ui.fragment.history.HistoryFragment
 import dllhell.familybudget.ui.navigation.Screens
@@ -39,7 +39,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 Screens.AUTH -> AuthFragment() as Fragment
                 Screens.SCANNER -> ScannerFragment()
                 Screens.HISTORY -> HistoryFragment()
-                Screens.EDIT_EXPENSE -> EditExpenseFragment()
+                Screens.ADD_EXPENSE -> AddExpenseFragment()
                 else -> throw IllegalStateException("Navigating to unknown screen: " + screenKey)
             }.apply {
                 if (data is Bundle) {
