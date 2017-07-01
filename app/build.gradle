@@ -87,6 +87,8 @@ dependencies {
     // Log
     compile 'com.jakewharton.timber:timber:4.5.1'
 
+    // Barcode Scanner
+    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
+
     testCompile 'junit:junit:4.12'
-}
-apply plugin: 'com.google.gms.google-services'
+}apply plugin: 'com.google.gms.google-services'
