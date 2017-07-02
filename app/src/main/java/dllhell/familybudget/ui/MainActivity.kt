@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import dllhell.familybudget.App
@@ -15,8 +16,8 @@ import dllhell.familybudget.R
 import dllhell.familybudget.presentation.main.MainPresenter
 import dllhell.familybudget.presentation.main.MainView
 import dllhell.familybudget.service.LocationService
-import dllhell.familybudget.ui.fragment.AuthFragment
 import dllhell.familybudget.ui.fragment.AddExpenseFragment
+import dllhell.familybudget.ui.fragment.AuthFragment
 import dllhell.familybudget.ui.fragment.ScannerFragment
 import dllhell.familybudget.ui.fragment.history.HistoryFragment
 import dllhell.familybudget.ui.navigation.Screens
@@ -59,6 +60,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         }
     }
 
+    private lateinit var drawer: Drawer
     private val onBackStackChangedListener = FragmentManager.OnBackStackChangedListener { this.updateToolbarBackButton() }
 
 
@@ -66,6 +68,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     internal fun providePresenter(): MainPresenter {
         return App.getAppComponent().mainPresenterProvider().get()
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.getAppComponent().inject(this)
@@ -75,12 +78,9 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
         setSupportActionBar(toolbar)
 
-        toolbar.setNavigationOnClickListener { _ -> onBackPressed() }
-
         updateToolbarBackButton()
 
-        DrawerBuilder().withActivity(this)
-                .withToolbar(toolbar)
+        drawer = DrawerBuilder().withActivity(this)
                 .addDrawerItems(
                         PrimaryDrawerItem()
                                 .withIdentifier(1)
@@ -121,12 +121,12 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     }
 
     private fun updateToolbarBackButton() {
-        val actionBar = supportActionBar ?: return
-
         if (supportFragmentManager.backStackEntryCount > 0) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
+            toolbar.setNavigationIcon(R.drawable.ic_back)
+            toolbar.setNavigationOnClickListener { onBackPressed() }
         } else {
-            actionBar.setDisplayHomeAsUpEnabled(false)
+            toolbar.setNavigationIcon(R.drawable.ic_menu)
+            toolbar.setNavigationOnClickListener { drawer.openDrawer() }
         }
     }
 }

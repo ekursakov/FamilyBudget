@@ -1,6 +1,7 @@
 package dllhell.familybudget.presentation.main;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
@@ -19,7 +20,11 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     @Override
     protected void onFirstViewAttach() {
-        router.newRootScreen(Screens.AUTH);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            router.newRootScreen(Screens.SCANNER);
+        } else {
+            router.newRootScreen(Screens.AUTH);
+        }
     }
 
     public void navigateToScanner() {

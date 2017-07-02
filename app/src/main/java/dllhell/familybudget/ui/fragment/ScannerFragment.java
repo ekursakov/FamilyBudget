@@ -78,6 +78,13 @@ public class ScannerFragment extends MvpAppCompatFragment implements ScannerView
     };
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        getActivity().setTitle(R.string.app_name);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         barcodeView.resume();

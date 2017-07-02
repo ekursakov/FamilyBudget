@@ -73,7 +73,7 @@ dependencies {
     kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
 
     // Cicerone (navigation)
-    compile 'ru.terrakok.cicerone:cicerone:1.1'
+    compile 'ru.terrakok.cicerone:cicerone:1.2.1'
 
     // DI
     compile "com.google.dagger:dagger:$daggerVersion"

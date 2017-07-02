@@ -25,7 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service.LocationService" android:process=":location_service" />
+        <service
+            android:name=".service.LocationService"
+            android:enabled="false"
+            android:process=":location_service" />
     </application>
 
 </manifest>

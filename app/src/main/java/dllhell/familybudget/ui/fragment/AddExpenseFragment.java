@@ -73,6 +73,14 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        getActivity().setTitle(R.string.title_add_expense);
+    }
+
+
+    @Override
     public void SetSum(double sum) {
         sumEditText.setText(String.format("%.2f", sum));
     }
