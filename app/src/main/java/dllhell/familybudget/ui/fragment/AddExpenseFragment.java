@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -29,7 +30,7 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
     private EditText timeEditText;
     private EditText sumEditText;
     private EditText locationEditText;
-
+    private Spinner categorySpinner;
 
     @InjectPresenter
     AddExpensePresenter presenter;
@@ -64,6 +65,7 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
         timeEditText = (EditText) view.findViewById(R.id.time_edit_text);
         sumEditText = (EditText) view.findViewById(R.id.sum_edit_text);
         locationEditText = (EditText) view.findViewById(R.id.location_edit_text);
+        categorySpinner = (Spinner) view.findViewById(R.id.category_spinner);
 
         view.findViewById(R.id.edit_button).setOnClickListener(v -> {
             presenter.onEditClick();

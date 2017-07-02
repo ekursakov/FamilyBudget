@@ -67,6 +67,19 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Category" />
+
+    <Spinner
+        android:id="@+id/category_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/categories"
+        android:spinnerMode="dialog" />
+
     <Button
         android:id="@+id/edit_button"
         android:layout_width="wrap_content"
