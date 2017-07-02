@@ -8,6 +8,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -32,6 +34,7 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
     private static final String SPEECH_KIT_MANUAL_ADD_PATTERN_2 = "добавить";
     private static final String SPEECH_KIT_MANUAL_ADD_PATTERN_3 = "вручн";
     private static final String SPEECH_KIT_MANUAL_ADD_PATTERN_4 = "вручную";
+    private static final String SPEECH_KIT_SUM_PATTERN = "\\d+ [р]";
 
     @Inject
     public ScannerPresenter(Router router, DataRepository dataRepository) {
@@ -75,9 +78,19 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
 
     public void onSpeechKitCalled(String text) {
         if (speechKitManualAddKeywordsDetected(text)) {
-            // TODO: 7/2/17 detect sum / category
-            router.navigateTo(Screens.ADD_EXPENSE);
-            // TODO: 7/2/17 pass Bundle
+            Bundle bundle = new Bundle();
+            String sum = speechKitDetectSum(text);
+            if (sum != null && sum.isEmpty()) {
+                bundle.putDouble(AddExpenseFragment.ARG_SUM, 0);
+            } else {
+                try {
+                    bundle.putDouble(AddExpenseFragment.ARG_SUM, Double.valueOf(sum));
+                } catch (NumberFormatException e) {
+                    bundle.putDouble(AddExpenseFragment.ARG_SUM, 0);
+                }
+            }
+            bundle.putSerializable(AddExpenseFragment.ARG_DATE, new Date(System.currentTimeMillis()));
+            router.navigateTo(Screens.ADD_EXPENSE, bundle);
         } else {
             getViewState().setStatusText("Can't recognize your speech, please use manual mode or retry");
         }
@@ -88,5 +101,16 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
                 || text.contains(SPEECH_KIT_MANUAL_ADD_PATTERN_2)
                 || text.contains(SPEECH_KIT_MANUAL_ADD_PATTERN_3)
                 || text.contains(SPEECH_KIT_MANUAL_ADD_PATTERN_4);
+    }
+
+    private String speechKitDetectSum(String text) {
+        Pattern pattern = Pattern.compile(SPEECH_KIT_SUM_PATTERN);
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            String sum = matcher.group(0);
+            return sum.split(" ")[0];
+        } else {
+            return "";
+        }
     }
 }
