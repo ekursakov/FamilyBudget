@@ -28,6 +28,11 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
     private static final String DATE_START_PATTERN = "t=";
     private static final String SUM_START_PATTERN = "s=";
 
+    private static final String SPEECH_KIT_MANUAL_ADD_PATTERN_1 = "добавь";
+    private static final String SPEECH_KIT_MANUAL_ADD_PATTERN_2 = "добавить";
+    private static final String SPEECH_KIT_MANUAL_ADD_PATTERN_3 = "вручн";
+    private static final String SPEECH_KIT_MANUAL_ADD_PATTERN_4 = "вручную";
+
     @Inject
     public ScannerPresenter(Router router, DataRepository dataRepository) {
         this.router = router;
@@ -36,6 +41,7 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
 
     /**
      * Decodes String to inner fields date and sum.
+     *
      * @param text String like this "t=20170701T085100&s=169.00&fn=8710000100627004&i=75&fp=1563831204&n=1"
      */
     public void onBarcodeScan(String text) {
@@ -65,5 +71,22 @@ public class ScannerPresenter extends BasePresenter<ScannerView> {
         } else {
             getViewState().setStatusText("Can't recognize QR code data, please use manual mode or retry");
         }
+    }
+
+    public void onSpeechKitCalled(String text) {
+        if (speechKitManualAddKeywordsDetected(text)) {
+            // TODO: 7/2/17 detect sum / category
+            router.navigateTo(Screens.ADD_EXPENSE);
+            // TODO: 7/2/17 pass Bundle
+        } else {
+            getViewState().setStatusText("Can't recognize your speech, please use manual mode or retry");
+        }
+    }
+
+    private boolean speechKitManualAddKeywordsDetected(String text) {
+        return text.contains(SPEECH_KIT_MANUAL_ADD_PATTERN_1)
+                || text.contains(SPEECH_KIT_MANUAL_ADD_PATTERN_2)
+                || text.contains(SPEECH_KIT_MANUAL_ADD_PATTERN_3)
+                || text.contains(SPEECH_KIT_MANUAL_ADD_PATTERN_4);
     }
 }

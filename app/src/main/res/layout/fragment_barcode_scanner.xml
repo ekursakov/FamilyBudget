@@ -53,7 +53,19 @@
             android:scaleType="center"
             app:fabSize="normal"
             app:srcCompat="@android:drawable/ic_menu_camera" />
-
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_speech_kit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="20dp"
+        android:clickable="true"
+        android:scaleType="center"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
 </RelativeLayout>

@@ -94,6 +94,9 @@ dependencies {
     // Barcode Scanner
     compile 'com.journeyapps:zxing-android-embedded:3.5.0'
 
+    // Speechkit
+    compile 'com.yandex.android:speechkit:2.5.0'
+
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
