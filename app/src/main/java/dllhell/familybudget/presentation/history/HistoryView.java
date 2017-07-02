@@ -12,13 +12,4 @@ import dllhell.familybudget.util.AddToEndSingleByTagStateStrategy;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface HistoryView extends MvpView {
 
-    void setLoading(boolean isLoading);
-
-    void setItems(List<Expense> items);
-
-    @StateStrategyType(value = AddToEndSingleByTagStateStrategy.class, tag = "fatalError")
-    void showFatalError(String message);
-
-    @StateStrategyType(value = AddToEndSingleByTagStateStrategy.class, tag = "fatalError")
-    void hideFatalError();
 }

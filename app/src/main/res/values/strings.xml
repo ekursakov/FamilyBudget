@@ -4,7 +4,7 @@
     <string name="error_network">Ошибка сети. Проверьте подключение к интернету.</string>
     <string name="error_server_failure">Ошибка сервера. Попробуйте повторить запрос позже.</string>
     <string name="error_unknown_failure">неизвестная ошибка</string>
-    <string name="action_retry">Повторить</string>
+    <string name="action_retry">Retry</string>
     <string name="title_add_expense">Add expense</string>
     <string name="title_auth">Sign in</string>
 </resources>

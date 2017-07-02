@@ -8,16 +8,24 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import dllhell.familybudget.App
 import dllhell.familybudget.R
-import dllhell.familybudget.data.models.Expense
 import dllhell.familybudget.presentation.history.HistoryPresenter
 import dllhell.familybudget.presentation.history.HistoryView
 import kotlinx.android.synthetic.main.fragment_history.*
 
+
 class HistoryFragment : MvpAppCompatFragment(), HistoryView {
 
-    private val adapter = HistoryAdapter()
+    private val adapter = HistoryAdapter(getQuery())
+
+    private fun getQuery(): Query {
+        return FirebaseDatabase.getInstance().reference.child("expenses")
+                .child(FirebaseAuth.getInstance().currentUser?.uid)
+    }
 
     @InjectPresenter
     lateinit var presenter: HistoryPresenter
@@ -34,30 +42,7 @@ class HistoryFragment : MvpAppCompatFragment(), HistoryView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvExpenses.adapter = adapter;
+        rvExpenses.adapter = adapter
         rvExpenses.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-    }
-
-    override fun setLoading(isLoading: Boolean) {
-        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    override fun setItems(items: List<Expense>?) {
-        if (items != null) {
-            rvExpenses.visibility = View.VISIBLE
-            adapter.setItems(items)
-        } else {
-            rvExpenses.visibility = View.GONE
-        }
-    }
-
-    override fun showFatalError(message: String) {
-        errorView.visibility = View.VISIBLE
-
-        tvErrorMessage.text = message
-    }
-
-    override fun hideFatalError() {
-        errorView.visibility = View.GONE
     }
 }

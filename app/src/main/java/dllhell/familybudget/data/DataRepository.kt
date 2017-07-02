@@ -14,8 +14,8 @@ import javax.inject.Inject
 class DataRepository @Inject constructor() {
     fun getExpenses(): Observable<List<Expense>> {
         return Observable.create { emitter ->
-            val uid = FirebaseAuth.getInstance().currentUser!!.uid
-            val reference = FirebaseDatabase.getInstance().getReference("expenses/$uid")
+            val author = FirebaseAuth.getInstance().currentUser!!.uid
+            val reference = FirebaseDatabase.getInstance().getReference("expenses/")
 
             val listener = object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
@@ -29,34 +29,6 @@ class DataRepository @Inject constructor() {
             reference.addListenerForSingleValueEvent(listener)
 
             emitter.setDisposable(Disposables.fromAction { reference.removeEventListener(listener) })
-        }
-    }
-
-    fun addExpense(expense: Expense): Completable {
-        return Completable.create { emitter ->
-            val uid = FirebaseAuth.getInstance().currentUser!!.uid
-            val reference = FirebaseDatabase.getInstance().getReference("expenses/$uid")
-            reference.child(expense.id).setValue(expense.toMap()).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    emitter.onComplete()
-                } else {
-                    emitter.onError(task.exception!!)
-                }
-            }
-        }
-    }
-
-    fun updateExpense(expense: Expense): Completable {
-        return Completable.create { emitter ->
-            val uid = FirebaseAuth.getInstance().currentUser!!.uid
-            val reference = FirebaseDatabase.getInstance().getReference("expenses/$uid")
-            reference.push().setValue(expense.toMap()).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    emitter.onComplete()
-                } else {
-                    emitter.onError(task.exception!!)
-                }
-            }
         }
     }
 }

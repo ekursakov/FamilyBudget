@@ -2,6 +2,9 @@ package dllhell.familybudget.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,26 +32,19 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
     private EditText dateEditText;
     private EditText timeEditText;
     private EditText sumEditText;
-    private EditText locationEditText;
     private Spinner categorySpinner;
+
+    private double sum;
+    private Date date;
 
     @InjectPresenter
     AddExpensePresenter presenter;
+    private TextInputLayout dateTextInputLayout;
+    private TextInputLayout sumTextInputLayout;
 
     @ProvidePresenter
     AddExpensePresenter providePresenter() {
-        AddExpensePresenter presenter = App.getAppComponent().addExpensePresenterProvider().get();
-        Bundle arguments = this.getArguments();
-
-        if (arguments != null) {
-            Double sum = arguments.getDouble(AddExpenseFragment.ARG_SUM);
-            presenter.setSum(sum);
-
-            Date date = (Date) arguments.getSerializable(AddExpenseFragment.ARG_DATE);
-            presenter.setDate(date);
-        }
-
-        return presenter;
+        return App.getAppComponent().addExpensePresenterProvider().get();
     }
 
     @Override
@@ -61,19 +57,78 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dateEditText = (EditText) view.findViewById(R.id.date_edit_text);
-        timeEditText = (EditText) view.findViewById(R.id.time_edit_text);
-        sumEditText = (EditText) view.findViewById(R.id.sum_edit_text);
-        locationEditText = (EditText) view.findViewById(R.id.location_edit_text);
+        dateTextInputLayout = (TextInputLayout) view.findViewById(R.id.tilDate);
+        sumTextInputLayout = (TextInputLayout) view.findViewById(R.id.tilSum);
+        dateEditText = (EditText) view.findViewById(R.id.etDate);
+        timeEditText = (EditText) view.findViewById(R.id.etTime);
+        sumEditText = (EditText) view.findViewById(R.id.etSum);
         categorySpinner = (Spinner) view.findViewById(R.id.category_spinner);
 
-        view.findViewById(R.id.edit_button).setOnClickListener(v -> {
-            presenter.onEditClick();
+        view.findViewById(R.id.btnSave).setOnClickListener(v -> {
+            presenter.onSaveClick(date, sum, categorySpinner.getSelectedItem().toString());
         });
 
-        view.findViewById(R.id.new_scanning_button).setOnClickListener(v -> {
-            presenter.onNewScanningClick();
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                onDateChanged();
+            }
+        };
+        dateEditText.addTextChangedListener(watcher);
+        timeEditText.addTextChangedListener(watcher);
+        sumEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    sum = Double.parseDouble(sumEditText.getText().toString());
+                    sumTextInputLayout.setError(null);
+                } catch (Exception e) {
+                    sumTextInputLayout.setError("Invalid sum");
+                }
+            }
         });
+
+        if (getArguments() != null) {
+            sum = getArguments().getDouble(AddExpenseFragment.ARG_SUM);
+            date = (Date) getArguments().getSerializable(AddExpenseFragment.ARG_DATE);
+
+            sumEditText.setText(String.format(Locale.US, "%.2f", sum));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+            dateEditText.setText(dateFormat.format(date));
+
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            timeEditText.setText(timeFormat.format(date));
+        }
+    }
+
+    private void onDateChanged() {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            date = dateFormat.parse(dateEditText.getText().toString() + " " + timeEditText.getText().toString());
+            dateTextInputLayout.setError(null);
+        } catch (Exception e) {
+            dateTextInputLayout.setError("Invalid date");
+        }
     }
 
     @Override
@@ -81,20 +136,5 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
         super.onStart();
 
         getActivity().setTitle(R.string.title_add_expense);
-    }
-
-
-    @Override
-    public void SetSum(double sum) {
-        sumEditText.setText(String.format("%.2f", sum));
-    }
-
-    @Override
-    public void SetDate(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
-        dateEditText.setText(dateFormat.format(date));
-
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        timeEditText.setText(timeFormat.format(date));
     }
 }

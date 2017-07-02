@@ -9,7 +9,7 @@ import java.util.Map;
 
 @IgnoreExtraProperties
 public class Expense {
-    public String id;
+    public String uid;
     public Date date;
     public Double sum;
     public String category;
@@ -18,10 +18,18 @@ public class Expense {
     public Expense() {
     }
 
+    public Expense(String uid, Date date, Double sum, String category, String comment) {
+        this.uid = uid;
+        this.date = date;
+        this.sum = sum;
+        this.category = category;
+        this.comment = comment;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", id);
+        result.put("uid", uid);
         result.put("date", date);
         result.put("sum", sum);
         result.put("category", category);
