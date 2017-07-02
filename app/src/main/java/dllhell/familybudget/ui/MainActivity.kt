@@ -66,12 +66,12 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     @ProvidePresenter
     internal fun providePresenter(): MainPresenter {
-        return App.getAppComponent().mainPresenterProvider().get()
+        return App.appComponent.mainPresenterProvider().get()
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.getAppComponent().inject(this)
+        App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)

@@ -27,7 +27,7 @@ class AuthFragment : MvpAppCompatFragment(), AuthView {
 
     @ProvidePresenter
     internal fun providePresenter(): AuthPresenter {
-        return App.getAppComponent().authPresenterProvider().get()
+        return App.appComponent.authPresenterProvider().get()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -32,7 +32,7 @@ class HistoryFragment : MvpAppCompatFragment(), HistoryView {
 
     @ProvidePresenter
     internal fun providePresenter(): HistoryPresenter {
-        return App.getAppComponent().historyPresenterProvider().get()
+        return App.appComponent.historyPresenterProvider().get()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
