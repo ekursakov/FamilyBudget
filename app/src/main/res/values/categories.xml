@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories">
+        <item>Not set</item>
+        <item>Bills</item>
+        <item>Car</item>
+        <item>Gas</item>
+        <item>Clothes</item>
+        <item>Communications</item>
+        <item>Eating out</item>
+        <item>Electronics</item>
+        <item>Entertainment</item>
+        <item>Food</item>
+        <item>Gifts</item>
+        <item>Heals</item>
+        <item>Hours</item>
+        <item>Other</item>
+        <item>Sports</item>
+        <item>Studing</item>
+        <item>Transport</item>
+        <item>Vacation</item>
+    </string-array>
+    <item name="categories" type="id">categories</item>
+</resources>
