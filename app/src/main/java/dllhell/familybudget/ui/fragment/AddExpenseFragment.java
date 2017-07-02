@@ -39,11 +39,13 @@ public class AddExpenseFragment extends MvpAppCompatFragment implements AddExpen
         AddExpensePresenter presenter = App.getAppComponent().addExpensePresenterProvider().get();
         Bundle arguments = this.getArguments();
 
-        double sum = arguments.getDouble(AddExpenseFragment.ARG_SUM);
-        presenter.setSum(sum);
+        if (arguments != null) {
+            Double sum = arguments.getDouble(AddExpenseFragment.ARG_SUM);
+            presenter.setSum(sum);
 
-        Date date = (Date)arguments.getSerializable(AddExpenseFragment.ARG_DATE);
-        presenter.setDate(date);
+            Date date = (Date) arguments.getSerializable(AddExpenseFragment.ARG_DATE);
+            presenter.setDate(date);
+        }
 
         return presenter;
     }
